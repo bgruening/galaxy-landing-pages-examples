@@ -1,17 +1,15 @@
-# Galaxy Workflow Landing Demo (Astro)
+# Galaxy Landing Pages Demo's
 
-This example renders a WorkflowHub workflow and a data landing demo using the
-Galaxy 25.1 APIs (`/api/workflow_landings` and `/api/data_landings`, no API key
-required) to generate landing UUIDs before redirecting to
-`https://usegalaxy.eu/workflow_landings/<uuid>` and
-`https://usegalaxy.eu/tool_landings/<uuid>` via same-origin Astro API routes
-(avoids browser CORS issues).
+The aim of this repository is to provide examples for Galaxy's landing pages. Currently (Galaxy 25.1) workflow- and data-landing pages are supported. Tool landing pages are under contruction.
+We have added an example in Astro and in pure HTML/JS. 
+The workflow example renders a WorkflowHub workflow and the data landing demo has a simple and a more complex example using collections and deferred datasets.
 
-The Astro site lives in `astro/` (API routes proxy Galaxy requests).
+We are using Galaxy 25.1 APIs (`/api/workflow_landings` and `/api/data_landings`, no API key
+required) to generate landing UUIDs before redirecting to `https://usegalaxy.eu/workflow_landings/<uuid>` and `https://usegalaxy.eu/tool_landings/<uuid>`.
 
-Static HTML version lives in `html/` (direct browser calls to Galaxy).
+The Astro site lives in `astro/`. The HTML version lives in `html/`.
 
-## Setup
+## Astro setup
 
 ```sh
 cd astro
@@ -24,14 +22,14 @@ Optional override (defaults to `https://usegalaxy.eu`):
 export PUBLIC_GALAXY_BASE_URL="https://usegalaxy.eu"
 ```
 
-## Run
+## Run the Astro example
 
 ```sh
 cd astro
 npm run dev
 ```
 
-## Static HTML
+## Static HTML example
 
 Open `html/index.html` directly or serve the folder with any static server.
 
