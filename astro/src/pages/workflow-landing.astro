@@ -1,0 +1,453 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { workflow } from "../data/workflow";
+---
+
+<Layout title={`Run ${workflow.name} in Galaxy`}>
+	<main class="page">
+		<section class="hero">
+			<a class="back-link" href="/">← Back to main page</a>
+			<div class="eyebrow">Workflow landing page</div>
+			<h1>{workflow.name}</h1>
+			<p class="lede">{workflow.summary}</p>
+			<div class="meta">
+				<div>
+					<span class="label">WorkflowHub</span>
+					<a href={workflow.workflowhubUrl} target="_blank" rel="noreferrer">
+						{workflow.workflowhubUrl.replace("https://", "")}
+					</a>
+				</div>
+				<div>
+					<span class="label">Organization</span>
+					<span>{workflow.organization}</span>
+				</div>
+				<div>
+					<span class="label">Descriptor</span>
+					<span>{workflow.descriptor}</span>
+				</div>
+				<div>
+					<span class="label">Version</span>
+					<span>{workflow.version}</span>
+				</div>
+			</div>
+			<div class="actions">
+				<button id="run-btn" class="run-btn">
+					Run in Galaxy
+				</button>
+				<a class="secondary" href={workflow.workflowhubUrl} target="_blank" rel="noreferrer">
+					View on WorkflowHub
+				</a>
+			</div>
+			<div id="status" class="status" role="status" aria-live="polite"></div>
+		</section>
+
+		<section class="panel">
+			<h2>How it works</h2>
+			<div class="flow">
+				<div class="flow-card">
+					<span class="chip">1</span>
+					<h3>TRS workflow</h3>
+					<p>We reference a WorkflowHub TRS URL so Galaxy can fetch the workflow.</p>
+					<pre class="code"><code>workflow_id: "https://workflowhub.eu/ga4gh/trs/v2/tools/2/versions/1"
+workflow_target_type: "trs_url"</code></pre>
+				</div>
+				<div class="flow-card">
+					<span class="chip">2</span>
+					<h3>Create landing</h3>
+					<p>The Astro API route calls Galaxy 25.1 to create a workflow landing request.</p>
+					<pre class="code"><code>POST /api/workflow_landings
+&#123; workflow_id, workflow_target_type, request_state: {} &#125;</code></pre>
+				</div>
+				<div class="flow-card">
+					<span class="chip">3</span>
+					<h3>Launch Galaxy</h3>
+					<p>You are redirected to usegalaxy.eu with the landing UUID.</p>
+					<pre class="code"><code>window.location = galaxy + "/workflow_landings/" + uuid</code></pre>
+				</div>
+			</div>
+		</section>
+
+		<section class="panel note">
+			<h2>Galaxy API</h2>
+			<p>
+				This demo posts to <code>/api/workflow_landings</code> with
+				<code>workflow_target_type: "trs_url"</code> against Galaxy 25.1 on
+				<a href="https://usegalaxy.eu" target="_blank" rel="noreferrer">usegalaxy.eu</a>
+				without an API key.
+			</p>
+		</section>
+
+		<section class="panel">
+			<h2>Quick curl</h2>
+			<div class="code-block">
+				<button class="copy-btn" data-copy-target="workflow-curl">Copy</button>
+				<pre id="workflow-curl" class="code"><code>curl -X POST "https://usegalaxy.eu/api/workflow_landings" \
+  -H "content-type: application/json" \
+  -d '{"workflow_id":"https://workflowhub.eu/ga4gh/trs/v2/tools/2/versions/1","workflow_target_type":"trs_url","request_state":{},"public":true}'</code></pre>
+			</div>
+			<p class="lede">
+				The response includes a <code>uuid</code>. Redirect users to
+				<code>/workflow_landings/&lt;uuid&gt;</code> on usegalaxy.eu.
+			</p>
+			<div class="code-block">
+				<button class="copy-btn" data-copy-target="workflow-next">Copy</button>
+				<pre id="workflow-next" class="code"><code># Example
+https://usegalaxy.eu/workflow_landings/32025b86-76ef-4480-b4c7-01255ada9d56</code></pre>
+			</div>
+		</section>
+
+		<section class="panel">
+			<h2>Schema references</h2>
+			<p>
+				<a href="https://usegalaxy.eu/api/docs" target="_blank" rel="noreferrer">
+					OpenAPI docs
+				</a>
+				·
+				<a href="https://usegalaxy.eu/openapi.json" target="_blank" rel="noreferrer">
+					openapi.json
+				</a>
+			</p>
+		</section>
+
+	</main>
+
+	<script>
+		// Minimal client controller for demo actions.
+		const runButton = document.getElementById("run-btn");
+		const status = document.getElementById("status");
+		const copyButtons = document.querySelectorAll(".copy-btn");
+
+		const setStatus = (message) => {
+			if (!status) return;
+			status.textContent = message;
+		};
+
+		const setButtonState = (button, label, disabled) => {
+			if (!button) return;
+			button.textContent = label;
+			if (disabled) {
+				button.setAttribute("disabled", "true");
+			} else {
+				button.removeAttribute("disabled");
+			}
+		};
+
+		const wireCopyButtons = () => {
+			// Copy code snippets to clipboard.
+			copyButtons.forEach((button) => {
+				button.addEventListener("click", async () => {
+					const targetId = button.getAttribute("data-copy-target");
+					const target = document.getElementById(targetId);
+					if (!target) return;
+					try {
+						await navigator.clipboard.writeText(target.textContent || "");
+						button.textContent = "Copied";
+						setTimeout(() => {
+							button.textContent = "Copy";
+						}, 1200);
+					} catch (error) {
+						button.textContent = "Failed";
+					}
+				});
+			});
+		};
+
+		if (runButton) {
+			runButton.addEventListener("click", async () => {
+				setButtonState(runButton, "Preparing...", true);
+				setStatus("Creating Galaxy workflow landing...");
+
+				try {
+					const response = await fetch("/api/landing", { method: "POST" });
+					const data = await response.json();
+					if (!response.ok || !data.landingUrl) {
+						throw new Error(data.error || "Failed to create landing request.");
+					}
+					setStatus("Redirecting to Galaxy...");
+					window.location.href = data.landingUrl;
+				} catch (error) {
+					setStatus(error.message || "Unexpected error.");
+					setButtonState(runButton, "Run in Galaxy", false);
+				}
+			});
+		}
+
+		wireCopyButtons();
+	</script>
+</Layout>
+
+<style>
+	:global(:root) {
+		--ink: #1a202c;
+		--muted: #4a5568;
+		--accent: #2b6cb0;
+		--accent-dark: #234e82;
+		--panel: #edf2f7;
+		--panel-strong: #e2e8f0;
+		--shadow: 0 16px 32px rgba(20, 28, 40, 0.12);
+	}
+
+	.page {
+		min-height: 100vh;
+		display: grid;
+		gap: 2.5rem;
+		padding: 5rem 8vw 6rem;
+	}
+
+	.hero {
+		background: #ffffff;
+		border-radius: 16px;
+		padding: 3.5rem clamp(2rem, 4vw, 4rem);
+		box-shadow: var(--shadow);
+		position: relative;
+		overflow: hidden;
+		animation: fade-up 0.8s ease both;
+	}
+
+	.hero::after {
+		content: "";
+		position: absolute;
+		width: 340px;
+		height: 340px;
+		border-radius: 50%;
+		background: radial-gradient(circle, rgba(43, 108, 176, 0.12), transparent 65%);
+		top: -120px;
+		right: -120px;
+		animation: float 8s ease-in-out infinite;
+	}
+
+	.back-link {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.4rem;
+		color: var(--muted);
+		text-decoration: none;
+		font-weight: 600;
+		margin-bottom: 1.2rem;
+	}
+
+	.eyebrow {
+		text-transform: uppercase;
+		letter-spacing: 0.28em;
+		font-size: 0.75rem;
+		color: var(--muted);
+		font-weight: 600;
+	}
+
+	h1 {
+		font-family: "Fraunces", serif;
+		font-size: clamp(2.5rem, 5vw, 4.25rem);
+		margin: 0.6rem 0 1rem;
+		color: var(--ink);
+	}
+
+	.lede {
+		max-width: 640px;
+		font-size: 1.2rem;
+		color: var(--muted);
+		line-height: 1.6;
+		margin-bottom: 2rem;
+	}
+
+	.meta {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+		gap: 1rem 2rem;
+		margin-bottom: 2.5rem;
+	}
+
+	.meta div {
+		display: grid;
+		gap: 0.35rem;
+	}
+
+	.label {
+		font-size: 0.75rem;
+		text-transform: uppercase;
+		letter-spacing: 0.2em;
+		color: #7c8a98;
+	}
+
+	.meta a,
+	.meta span {
+		font-weight: 500;
+		color: var(--ink);
+		word-break: break-word;
+	}
+
+	.actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 1rem;
+		align-items: center;
+	}
+
+	.run-btn {
+		background: var(--accent);
+		border: none;
+		color: white;
+		font-size: 1.1rem;
+		padding: 1rem 2.6rem;
+		border-radius: 6px;
+		font-weight: 600;
+		cursor: pointer;
+		box-shadow: 0 12px 24px rgba(43, 108, 176, 0.24);
+		transition: transform 0.2s ease, box-shadow 0.2s ease;
+	}
+
+	.run-btn:hover {
+		transform: translateY(-2px);
+		box-shadow: 0 16px 30px rgba(43, 108, 176, 0.3);
+	}
+
+	.run-btn:disabled {
+		opacity: 0.7;
+		cursor: wait;
+	}
+
+	.secondary {
+		color: var(--ink);
+		text-decoration: none;
+		border-bottom: 2px solid var(--accent);
+		padding-bottom: 0.2rem;
+		font-weight: 600;
+	}
+
+	.status {
+		margin-top: 1.2rem;
+		color: var(--muted);
+		min-height: 1.4rem;
+	}
+
+	.panel {
+		background: var(--panel);
+		border-radius: 16px;
+		padding: 2.5rem clamp(1.8rem, 3.5vw, 3rem);
+		box-shadow: 0 16px 40px rgba(20, 26, 35, 0.08);
+		animation: fade-up 0.9s ease both;
+		animation-delay: 0.2s;
+	}
+
+	.panel h2 {
+		margin-top: 0;
+		font-size: 1.6rem;
+	}
+
+	.flow {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+		gap: 1.5rem;
+		margin-top: 1.6rem;
+	}
+
+	.flow-card {
+		background: white;
+		padding: 1.5rem;
+		border-radius: 12px;
+		border: 1px solid #d7dde7;
+	}
+
+	.flow-card h3 {
+		margin-top: 0.8rem;
+		margin-bottom: 0.5rem;
+	}
+
+	.flow-card p {
+		margin: 0;
+		color: var(--muted);
+		line-height: 1.5;
+	}
+
+	.code {
+		margin-top: 1rem;
+		background: #101418;
+		color: #eef2f6;
+		padding: 0.75rem;
+		border-radius: 12px;
+		font-size: 0.82rem;
+		white-space: pre-wrap;
+		font-family: "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", monospace;
+	}
+
+	.code code {
+		background: none;
+		padding: 0;
+	}
+
+	.code-block {
+		position: relative;
+	}
+
+	.copy-btn {
+		position: absolute;
+		top: 12px;
+		right: 12px;
+		border: 1px solid #2b3340;
+		background: #1c232d;
+		color: #dfe7f1;
+		border-radius: 999px;
+		padding: 0.35rem 0.8rem;
+		font-size: 0.75rem;
+		cursor: pointer;
+	}
+
+	.chip {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 32px;
+		height: 32px;
+		border-radius: 999px;
+		background: var(--panel-strong);
+		color: var(--accent-dark);
+		font-weight: 600;
+	}
+
+	.note {
+		background: #f7f9fc;
+	}
+
+	code {
+		background: #e7ebf2;
+		padding: 0.1rem 0.4rem;
+		border-radius: 6px;
+		font-size: 0.9em;
+	}
+
+	@keyframes float {
+		0%,
+		100% {
+			transform: translateY(0);
+		}
+		50% {
+			transform: translateY(14px);
+		}
+	}
+
+	@keyframes fade-up {
+		from {
+			opacity: 0;
+			transform: translateY(18px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	@media (max-width: 720px) {
+		.page {
+			padding: 3.5rem 6vw 4rem;
+		}
+
+		.actions {
+			flex-direction: column;
+			align-items: stretch;
+		}
+
+		.run-btn,
+		.secondary {
+			text-align: center;
+		}
+	}
+</style>

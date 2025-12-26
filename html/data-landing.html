@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Data Landing Example</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Space+Grotesk:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="global-banner">
+      Tool landing is not finished yet. Expect changes to the API and UI.
+    </div>
+    <main class="page">
+      <section class="hero">
+        <a class="back-link" href="./index.html">← Back to main page</a>
+        <div class="eyebrow">Data landing page</div>
+        <h1>Send a file to Galaxy</h1>
+        <p class="lede">
+          This example preloads a single remote file into a Galaxy history and redirects to
+          the tool landing page.
+        </p>
+        <div class="meta">
+          <div>
+            <span class="label">File name</span>
+            <span>Example BED file</span>
+          </div>
+          <div>
+            <span class="label">Datatype</span>
+            <span>bed</span>
+          </div>
+          <div>
+            <span class="label">Source</span>
+            <a
+              href="https://raw.githubusercontent.com/galaxyproject/galaxy/dev/test-data/1.bed"
+              target="_blank"
+              rel="noreferrer"
+              >raw.githubusercontent.com/galaxyproject/galaxy/dev/test-data/1.bed</a
+            >
+          </div>
+        </div>
+        <div class="actions">
+          <button id="run-data" class="run-btn">Send data to Galaxy</button>
+          <a
+            class="secondary"
+            href="https://raw.githubusercontent.com/galaxyproject/galaxy/dev/test-data/1.bed"
+            target="_blank"
+            rel="noreferrer"
+            >View the file</a
+          >
+        </div>
+        <div id="data-status" class="status" role="status" aria-live="polite"></div>
+      </section>
+
+      <section class="panel" id="advanced">
+        <h2>Advanced: paired FASTQ collection (deferred)</h2>
+        <p class="lede">
+          Use the PRJDB3920 rules table to create a list:paired collection with deferred
+          FASTQ elements.
+        </p>
+        <div class="meta">
+          <div>
+            <span class="label">Rules table</span>
+            <a
+              href="https://raw.githubusercontent.com/galaxyproject/galaxy/dev/test-data/rules/PRJDB3920.tsv"
+              target="_blank"
+              rel="noreferrer"
+              >raw.githubusercontent.com/galaxyproject/galaxy/dev/test-data/rules/PRJDB3920.tsv</a
+            >
+          </div>
+          <div>
+            <span class="label">Datatype</span>
+            <span>fastqsanger.gz</span>
+          </div>
+          <div>
+            <span class="label">Files</span>
+            <span>3 pairs (6 URLs)</span>
+          </div>
+        </div>
+        <div class="actions">
+          <button id="run-data-advanced" class="run-btn">
+            Send paired collection to Galaxy
+          </button>
+          <a
+            class="secondary"
+            href="https://raw.githubusercontent.com/galaxyproject/galaxy/dev/test-data/rules/PRJDB3920.tsv"
+            target="_blank"
+            rel="noreferrer"
+            >View rules table</a
+          >
+        </div>
+        <ul class="file-list">
+          <li>
+            <a
+              href="https://ftp.sra.ebi.ac.uk/vol1/fastq/DRR039/DRR039919/DRR039919_1.fastq.gz"
+              target="_blank"
+              rel="noreferrer"
+              >ftp.sra.ebi.ac.uk/vol1/fastq/DRR039/DRR039919/DRR039919_1.fastq.gz</a
+            >
+          </li>
+          <li>
+            <a
+              href="https://ftp.sra.ebi.ac.uk/vol1/fastq/DRR039/DRR039919/DRR039919_2.fastq.gz"
+              target="_blank"
+              rel="noreferrer"
+              >ftp.sra.ebi.ac.uk/vol1/fastq/DRR039/DRR039919/DRR039919_2.fastq.gz</a
+            >
+          </li>
+          <li>
+            <a
+              href="https://ftp.sra.ebi.ac.uk/vol1/fastq/DRR039/DRR039920/DRR039920_1.fastq.gz"
+              target="_blank"
+              rel="noreferrer"
+              >ftp.sra.ebi.ac.uk/vol1/fastq/DRR039/DRR039920/DRR039920_1.fastq.gz</a
+            >
+          </li>
+          <li>
+            <a
+              href="https://ftp.sra.ebi.ac.uk/vol1/fastq/DRR039/DRR039920/DRR039920_2.fastq.gz"
+              target="_blank"
+              rel="noreferrer"
+              >ftp.sra.ebi.ac.uk/vol1/fastq/DRR039/DRR039920/DRR039920_2.fastq.gz</a
+            >
+          </li>
+          <li>
+            <a
+              href="https://ftp.sra.ebi.ac.uk/vol1/fastq/DRR039/DRR039921/DRR039921_1.fastq.gz"
+              target="_blank"
+              rel="noreferrer"
+              >ftp.sra.ebi.ac.uk/vol1/fastq/DRR039/DRR039921/DRR039921_1.fastq.gz</a
+            >
+          </li>
+          <li>
+            <a
+              href="https://ftp.sra.ebi.ac.uk/vol1/fastq/DRR039/DRR039921/DRR039921_2.fastq.gz"
+              target="_blank"
+              rel="noreferrer"
+              >ftp.sra.ebi.ac.uk/vol1/fastq/DRR039/DRR039921/DRR039921_2.fastq.gz</a
+            >
+          </li>
+        </ul>
+        <div id="data-advanced-status" class="status" role="status" aria-live="polite"></div>
+      </section>
+
+      <section class="panel">
+        <h2>How it works</h2>
+        <div class="flow">
+          <div class="flow-card">
+            <span class="chip">1</span>
+            <h3>Define targets</h3>
+            <p>Send a URL-based element in the landing request.</p>
+            <pre class="code"><code>targets: [{ destination: { type: "hdas" }, elements: [{ src: "url", url, ext }] }]</code></pre>
+          </div>
+          <div class="flow-card">
+            <span class="chip">2</span>
+            <h3>Create landing</h3>
+            <p>POST to the Galaxy API and get a landing UUID.</p>
+            <pre class="code"><code>POST /api/data_landings
+{ request_state: { targets }, public: true }</code></pre>
+          </div>
+          <div class="flow-card">
+            <span class="chip">3</span>
+            <h3>Launch Galaxy</h3>
+            <p>Redirect to the tool landing page.</p>
+            <pre class="code"><code>window.location = galaxy + "/tool_landings/" + uuid</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel note">
+        <h2>Galaxy API</h2>
+        <p class="lede">
+          This demo posts to <code>/api/data_landings</code> and redirects to
+          <code>/tool_landings/&lt;uuid&gt;</code> on
+          <a href="https://usegalaxy.eu" target="_blank" rel="noreferrer"
+            >usegalaxy.eu</a
+          >. See the
+          <a href="https://usegalaxy.eu/api/docs" target="_blank" rel="noreferrer"
+            >OpenAPI docs</a
+          >.
+        </p>
+      </section>
+
+      <section class="panel">
+        <h2>Quick curl</h2>
+        <div class="code-block">
+          <button class="copy-btn" data-copy-target="data-curl">Copy</button>
+          <pre id="data-curl" class="code"><code>curl -X POST "https://usegalaxy.eu/api/data_landings" \
+  -H "content-type: application/json" \
+  -d '{"request_state":{"targets":[{"destination":{"type":"hdas"},"elements":[{"src":"url","url":"https://raw.githubusercontent.com/galaxyproject/galaxy/dev/test-data/1.bed","ext":"bed"}]}]},"public":true}'</code></pre>
+        </div>
+        <p class="lede">
+          The response includes a <code>uuid</code>. Redirect users to
+          <code>/tool_landings/&lt;uuid&gt;</code> on usegalaxy.eu.
+        </p>
+        <div class="code-block">
+          <button class="copy-btn" data-copy-target="data-next">Copy</button>
+          <pre id="data-next" class="code"><code># Example
+https://usegalaxy.eu/tool_landings/32025b86-76ef-4480-b4c7-01255ada9d56</code></pre>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Schema references</h2>
+        <p class="lede">
+          <a href="https://usegalaxy.eu/api/docs" target="_blank" rel="noreferrer"
+            >OpenAPI docs</a
+          >
+          ·
+          <a href="https://usegalaxy.eu/openapi.json" target="_blank" rel="noreferrer"
+            >openapi.json</a
+          >
+        </p>
+      </section>
+
+    </main>
+    <script src="./app.js"></script>
+  </body>
+</html>

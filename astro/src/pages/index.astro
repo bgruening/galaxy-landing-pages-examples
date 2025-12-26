@@ -1,0 +1,226 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="Galaxy Landing Examples">
+	<main class="page">
+		<section class="hero">
+			<div class="eyebrow">Galaxy landing demos</div>
+			<h1>Choose your landing page</h1>
+			<p class="lede">
+				Explore Galaxy 25.1 landing patterns: workflow handoff, data handoff, and direct
+				tool landing with prefilled inputs.
+			</p>
+		</section>
+
+		<section class="cards">
+			<a class="card workflow" href="/workflow-landing">
+				<div class="card-top">
+					<span class="chip">Workflow</span>
+					<h2>Workflow landing page</h2>
+				</div>
+				<p>
+					Display a WorkflowHub TRS workflow and redirect users to Galaxy to run it.
+				</p>
+				<span class="cta">Open workflow example →</span>
+			</a>
+
+			<a class="card data" href="/data-landing">
+				<div class="card-top">
+					<span class="chip">Data</span>
+					<h2>Data landing page</h2>
+				</div>
+				<p>
+					Send a remote file into a Galaxy history and land on the upload tool page.
+				</p>
+				<span class="cta">Open data example →</span>
+			</a>
+
+			<a class="card tool" href="/tool-landing">
+				<div class="card-top">
+					<span class="banner">Coming soon</span>
+					<span class="chip">Tool</span>
+					<h2>Tool landing page</h2>
+				</div>
+				<p>
+					Open a Galaxy tool with prefilled inputs and example FASTA data.
+				</p>
+				<span class="cta">Open tool example →</span>
+			</a>
+		</section>
+	</main>
+</Layout>
+
+<style>
+	:global(:root) {
+		--ink: #1a202c;
+		--muted: #4a5568;
+		--accent: #2b6cb0;
+		--accent-dark: #234e82;
+		--panel: #edf2f7;
+		--panel-strong: #e2e8f0;
+		--shadow: 0 16px 32px rgba(20, 28, 40, 0.12);
+	}
+
+	.page {
+		min-height: 100vh;
+		display: grid;
+		gap: 2.5rem;
+		padding: 5rem 8vw 6rem;
+	}
+
+	.hero {
+		background: #ffffff;
+		border-radius: 16px;
+		padding: 3.5rem clamp(2rem, 4vw, 4rem);
+		box-shadow: var(--shadow);
+		position: relative;
+		overflow: hidden;
+		animation: fade-up 0.8s ease both;
+	}
+
+	.hero::after {
+		content: "";
+		position: absolute;
+		width: 340px;
+		height: 340px;
+		border-radius: 50%;
+		background: radial-gradient(circle, rgba(43, 108, 176, 0.12), transparent 65%);
+		top: -120px;
+		right: -120px;
+		animation: float 8s ease-in-out infinite;
+	}
+
+	.eyebrow {
+		text-transform: uppercase;
+		letter-spacing: 0.28em;
+		font-size: 0.75rem;
+		color: var(--muted);
+		font-weight: 600;
+	}
+
+	h1 {
+		font-family: "Fraunces", serif;
+		font-size: clamp(2.5rem, 5vw, 4.25rem);
+		margin: 0.6rem 0 1rem;
+		color: var(--ink);
+	}
+
+	.lede {
+		max-width: 640px;
+		font-size: 1.2rem;
+		color: var(--muted);
+		line-height: 1.6;
+		margin-bottom: 2rem;
+	}
+
+	.cards {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+		gap: 1.8rem;
+	}
+
+	.card {
+		background: #ffffff;
+		border-radius: 16px;
+		padding: 2.2rem;
+		box-shadow: 0 18px 40px rgba(20, 26, 35, 0.1);
+		text-decoration: none;
+		color: var(--ink);
+		display: grid;
+		gap: 1.2rem;
+		min-height: 220px;
+		position: relative;
+		overflow: hidden;
+		transition: transform 0.2s ease, box-shadow 0.2s ease;
+	}
+
+	.card:hover {
+		transform: translateY(-4px);
+		box-shadow: 0 22px 48px rgba(20, 26, 35, 0.16);
+	}
+
+	.card::after {
+		content: "";
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(120deg, rgba(255, 255, 255, 0.1), transparent 60%);
+		pointer-events: none;
+	}
+
+	.card-top {
+		display: grid;
+		gap: 0.6rem;
+	}
+
+	.card h2 {
+		margin: 0;
+		font-size: 1.6rem;
+	}
+
+	.card p {
+		margin: 0;
+		color: var(--muted);
+		line-height: 1.5;
+	}
+
+	.chip {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		padding: 0.3rem 0.9rem;
+		border-radius: 999px;
+		background: var(--panel-strong);
+		color: var(--accent-dark);
+		font-weight: 600;
+		width: fit-content;
+	}
+
+	.card.workflow {
+		background: #ffffff;
+	}
+
+	.card.data {
+		background: #ffffff;
+	}
+
+	.cta {
+		font-weight: 600;
+		color: var(--accent-dark);
+	}
+
+	.banner {
+		font-size: 0.7rem;
+		text-transform: uppercase;
+		letter-spacing: 0.18em;
+		color: var(--accent-dark);
+		font-weight: 600;
+	}
+
+	@keyframes float {
+		0%,
+		100% {
+			transform: translateY(0);
+		}
+		50% {
+			transform: translateY(14px);
+		}
+	}
+
+	@keyframes fade-up {
+		from {
+			opacity: 0;
+			transform: translateY(18px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	@media (max-width: 720px) {
+		.page {
+			padding: 3.5rem 6vw 4rem;
+		}
+	}
+</style>

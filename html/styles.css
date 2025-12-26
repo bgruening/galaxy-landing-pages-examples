@@ -1,0 +1,283 @@
+:root {
+  --ink: #1a202c;
+  --muted: #4a5568;
+  --accent: #2b6cb0;
+  --accent-dark: #234e82;
+  --panel: #edf2f7;
+  --panel-strong: #e2e8f0;
+  --shadow: 0 16px 32px rgba(20, 28, 40, 0.12);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Space Grotesk", sans-serif;
+  color: var(--ink);
+  background: #f6f7f9;
+}
+
+.global-banner {
+  background: #1f2a44;
+  color: #e6edf7;
+  text-align: center;
+  padding: 0.6rem 1.5rem;
+  font-size: 0.85rem;
+  letter-spacing: 0.02em;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.page {
+  min-height: 100vh;
+  display: grid;
+  gap: 2.5rem;
+  padding: 4.5rem 8vw 5.5rem;
+}
+
+.hero {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 3rem clamp(2rem, 4vw, 3.5rem);
+  box-shadow: var(--shadow);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(43, 108, 176, 0.12), transparent 65%);
+  top: -110px;
+  right: -110px;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.28em;
+  font-size: 0.7rem;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0 0 0.8rem;
+}
+
+h1 {
+  font-family: "Fraunces", serif;
+  font-size: clamp(2.2rem, 4vw, 3.5rem);
+}
+
+.lede {
+  max-width: 680px;
+  color: var(--muted);
+  line-height: 1.6;
+  margin-bottom: 0;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.6rem;
+}
+
+.card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 18px 40px rgba(20, 26, 35, 0.1);
+  display: grid;
+  gap: 1rem;
+  min-height: 200px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 22px 48px rgba(20, 26, 35, 0.16);
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.3rem 0.9rem;
+  border-radius: 999px;
+  background: var(--panel-strong);
+  color: var(--accent-dark);
+  font-weight: 600;
+  font-size: 0.8rem;
+}
+
+.banner {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--accent-dark);
+  font-weight: 600;
+}
+
+.panel {
+  background: var(--panel);
+  border-radius: 16px;
+  padding: 2.5rem clamp(1.8rem, 3.5vw, 3rem);
+  box-shadow: 0 16px 40px rgba(20, 26, 35, 0.08);
+}
+
+.meta {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem 2rem;
+  margin-top: 1.4rem;
+  margin-bottom: 1.8rem;
+}
+
+.meta div {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: #7c8a98;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+}
+
+.run-btn {
+  background: var(--accent);
+  border: none;
+  color: white;
+  font-size: 1rem;
+  padding: 0.95rem 2.4rem;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 12px 24px rgba(43, 108, 176, 0.24);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.run-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 30px rgba(43, 108, 176, 0.3);
+}
+
+.run-btn:disabled {
+  opacity: 0.7;
+  cursor: wait;
+}
+
+.secondary {
+  border-bottom: 2px solid var(--accent);
+  padding-bottom: 0.2rem;
+  font-weight: 600;
+}
+
+.status {
+  margin-top: 1rem;
+  color: var(--muted);
+  min-height: 1.4rem;
+}
+
+.flow {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 1.4rem;
+  margin-top: 1.4rem;
+}
+
+.flow-card {
+  background: white;
+  padding: 1.4rem;
+  border-radius: 12px;
+  border: 1px solid #d7dde7;
+}
+
+.code {
+  margin-top: 0.8rem;
+  background: #101418;
+  color: #eef2f6;
+  padding: 0.7rem;
+  border-radius: 10px;
+  font-size: 0.8rem;
+  white-space: pre-wrap;
+  font-family: "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", monospace;
+}
+
+.code-block {
+  position: relative;
+}
+
+.copy-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  border: 1px solid #2b3340;
+  background: #1c232d;
+  color: #dfe7f1;
+  border-radius: 999px;
+  padding: 0.35rem 0.8rem;
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+
+.note {
+  background: #f7f9fc;
+}
+
+.file-list {
+  list-style: none;
+  margin: 1rem 0 0;
+  padding: 1rem;
+  display: grid;
+  gap: 0.4rem;
+  max-height: 180px;
+  overflow: auto;
+  border: 1px solid #d7dde7;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--muted);
+  font-weight: 600;
+  margin-bottom: 1.2rem;
+}
+
+@media (max-width: 720px) {
+  .page {
+    padding: 3.5rem 6vw 4rem;
+  }
+
+  .actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .run-btn,
+  .secondary {
+    text-align: center;
+  }
+}

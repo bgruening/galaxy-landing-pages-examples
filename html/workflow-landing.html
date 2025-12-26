@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Workflow Landing Example</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Space+Grotesk:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="global-banner">
+      Tool landing is not finished yet. Expect changes to the API and UI.
+    </div>
+    <main class="page">
+      <section class="hero">
+        <a class="back-link" href="./index.html">← Back to main page</a>
+        <div class="eyebrow">Workflow landing page</div>
+        <h1>Genomics - Read pre-processing</h1>
+        <p class="lede">
+          Preprocessing of raw SARS-CoV-2 reads for downstream analysis in Galaxy.
+        </p>
+        <div class="meta">
+          <div>
+            <span class="label">WorkflowHub</span>
+            <a
+              href="https://workflowhub.eu/workflows/2?version=1"
+              target="_blank"
+              rel="noreferrer"
+              >workflowhub.eu/workflows/2?version=1</a
+            >
+          </div>
+          <div>
+            <span class="label">Organization</span>
+            <span>GalaxyProject SARS-CoV-2</span>
+          </div>
+          <div>
+            <span class="label">Descriptor</span>
+            <span>GALAXY</span>
+          </div>
+          <div>
+            <span class="label">Version</span>
+            <span>1</span>
+          </div>
+        </div>
+        <div class="actions">
+          <button id="run-workflow" class="run-btn">Run in Galaxy</button>
+          <a
+            class="secondary"
+            href="https://workflowhub.eu/workflows/2?version=1"
+            target="_blank"
+            rel="noreferrer"
+            >View on WorkflowHub</a
+          >
+        </div>
+        <div id="workflow-status" class="status" role="status" aria-live="polite"></div>
+      </section>
+
+      <section class="panel">
+        <h2>How it works</h2>
+        <div class="flow">
+          <div class="flow-card">
+            <span class="chip">1</span>
+            <h3>TRS workflow</h3>
+            <p>Use the WorkflowHub TRS URL as the workflow identifier.</p>
+            <pre class="code"><code>workflow_id: "https://workflowhub.eu/ga4gh/trs/v2/tools/2/versions/1"
+workflow_target_type: "trs_url"</code></pre>
+          </div>
+          <div class="flow-card">
+            <span class="chip">2</span>
+            <h3>Create landing</h3>
+            <p>POST to the Galaxy API to create a landing UUID.</p>
+            <pre class="code"><code>POST /api/workflow_landings
+{ workflow_id, workflow_target_type, request_state: {} }</code></pre>
+          </div>
+          <div class="flow-card">
+            <span class="chip">3</span>
+            <h3>Launch Galaxy</h3>
+            <p>Redirect to the workflow landing page using the UUID.</p>
+            <pre class="code"><code>window.location = galaxy + "/workflow_landings/" + uuid</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel note">
+        <h2>Galaxy API</h2>
+        <p class="lede">
+          This demo posts to <code>/api/workflow_landings</code> against
+          <a href="https://usegalaxy.eu" target="_blank" rel="noreferrer"
+            >usegalaxy.eu</a
+          >
+          without an API key.
+        </p>
+      </section>
+
+      <section class="panel">
+        <h2>Quick curl</h2>
+        <div class="code-block">
+          <button class="copy-btn" data-copy-target="workflow-curl">Copy</button>
+          <pre id="workflow-curl" class="code"><code>curl -X POST "https://usegalaxy.eu/api/workflow_landings" \
+  -H "content-type: application/json" \
+  -d '{"workflow_id":"https://workflowhub.eu/ga4gh/trs/v2/tools/2/versions/1","workflow_target_type":"trs_url","request_state":{},"public":true}'</code></pre>
+        </div>
+        <p class="lede">
+          The response includes a <code>uuid</code>. Redirect users to
+          <code>/workflow_landings/&lt;uuid&gt;</code> on usegalaxy.eu.
+        </p>
+        <div class="code-block">
+          <button class="copy-btn" data-copy-target="workflow-next">Copy</button>
+          <pre id="workflow-next" class="code"><code># Example
+https://usegalaxy.eu/workflow_landings/32025b86-76ef-4480-b4c7-01255ada9d56</code></pre>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Schema references</h2>
+        <p class="lede">
+          <a href="https://usegalaxy.eu/api/docs" target="_blank" rel="noreferrer"
+            >OpenAPI docs</a
+          >
+          ·
+          <a href="https://usegalaxy.eu/openapi.json" target="_blank" rel="noreferrer"
+            >openapi.json</a
+          >
+        </p>
+      </section>
+
+    </main>
+    <script src="./app.js"></script>
+  </body>
+</html>

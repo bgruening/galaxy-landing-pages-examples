@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Galaxy Landing Examples</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Space+Grotesk:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="global-banner">
+      Tool landing is not finished yet. Expect changes to the API and UI.
+    </div>
+    <main class="page">
+      <section class="hero">
+        <div class="eyebrow">Galaxy landing demos</div>
+        <h1>Choose your landing page</h1>
+        <p class="lede">
+          Static HTML examples for Galaxy 25.1 workflow, data, and tool landing pages.
+          Each page posts to the public Galaxy API and redirects with a landing UUID.
+        </p>
+      </section>
+
+      <section class="cards">
+        <a class="card" href="./workflow-landing.html">
+          <span class="chip">Workflow</span>
+          <h2>Workflow landing page</h2>
+          <p>Display a WorkflowHub TRS workflow and redirect users to run it in Galaxy.</p>
+          <span class="secondary">Open workflow example →</span>
+        </a>
+
+        <a class="card" href="./data-landing.html">
+          <span class="chip">Data</span>
+          <h2>Data landing page</h2>
+          <p>
+            Send remote files into a Galaxy history and land on the upload tool page.
+            Includes a batch FASTQ example.
+          </p>
+          <span class="secondary">Open data examples →</span>
+        </a>
+
+        <a class="card" href="./tool-landing.html">
+          <span class="banner">Coming soon</span>
+          <span class="chip">Tool</span>
+          <h2>Tool landing page</h2>
+          <p>Open a Galaxy tool with prefilled inputs and example FASTA data.</p>
+          <span class="secondary">Open tool example →</span>
+        </a>
+      </section>
+
+      <section class="panel note">
+        <h2>Notes for developers</h2>
+        <p class="lede">
+          These pages call <code>/api/workflow_landings</code> and
+          <code>/api/data_landings</code> directly from the browser. If your host blocks
+          cross-origin requests, proxy the calls through your backend.
+        </p>
+      </section>
+    </main>
+  </body>
+</html>
