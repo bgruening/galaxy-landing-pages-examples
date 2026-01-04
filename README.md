@@ -39,23 +39,3 @@ Example:
 cd html
 python -m http.server 8080
 ```
-
-## Customize
-
-- Workflow target: `astro/src/data/workflow.ts`
-- Data targets: `astro/src/data/dataLanding.ts`
-- Tool target: `astro/src/data/toolLanding.ts`
-- Static HTML + JS: `html/*.html`, `html/app.js`
-
-## Where to edit
-
-- `astro/src/data/workflow.ts` stores the WorkflowHub metadata and TRS URL.
-- `astro/src/data/dataLanding.ts` stores the data landing examples.
-- `astro/src/pages/api/landing.ts` calls the Galaxy workflow landing API.
-- `astro/src/pages/api/data-landing.ts` calls the Galaxy data landing API.
-- `astro/src/pages/api/data-landing-advanced.ts` calls the paired deferred collection API.
-- `astro/src/pages/api/tool-landing.ts` calls the Galaxy tool landing API.
-- `astro/src/pages/index.astro` is the landing selector page.
-- `astro/src/pages/workflow-landing.astro` renders the workflow example.
-- `astro/src/pages/data-landing.astro` renders the data landing example.
-- `astro/src/pages/tool-landing.astro` renders the tool landing example.
