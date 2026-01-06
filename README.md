@@ -1,5 +1,9 @@
 # Galaxy Landing Pages Demo's
 
+Galaxy Landing pages are integration hooks for services that would like to interact with Galaxy. With landing pages you can redirect users **with data** to a Galaxy instance.
+If you have a data repository or a registry, you can now start a given workflow with prefilled parameters directly from your website. You can push data directly to Galaxy from your website, and this all without a backend.
+Galaxy Landing pages can be utilized from a static website if you like.
+
 The aim of this repository is to provide examples for Galaxy's landing pages. Currently (Galaxy 25.1) workflow- and data-landing pages are supported. Tool landing pages are under contruction.
 We have added an example in Astro and in pure HTML/JS. 
 The workflow example renders a WorkflowHub workflow and the data landing demo has a simple and a more complex example using collections and deferred datasets.
