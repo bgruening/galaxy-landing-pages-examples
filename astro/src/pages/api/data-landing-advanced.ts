@@ -38,7 +38,8 @@ export const POST: APIRoute = async ({ request }) => {
     });
   }
 
-  const payload = {
+  const origin = request.headers.get("origin");
+  const payload: Record<string, unknown> = {
     request_state: {
       targets: [
         {
@@ -51,8 +52,10 @@ export const POST: APIRoute = async ({ request }) => {
       ],
     },
     public: true,
-    origin: request.headers.get("origin"),
   };
+  if (origin && origin !== "null" && origin !== "file://") {
+    payload.origin = origin;
+  }
 
   const response = await fetch(`${baseUrl}/api/data_landings`, {
     method: "POST",

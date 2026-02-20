@@ -8,7 +8,8 @@ const baseUrl = (
 ).replace(/\/$/, "");
 
 export const POST: APIRoute = async ({ request }) => {
-  const payload = {
+  const origin = request.headers.get("origin");
+  const payload: Record<string, unknown> = {
     tool_id: toolLanding.toolId,
     tool_version: toolLanding.toolVersion,
     request_state: {
@@ -18,8 +19,10 @@ export const POST: APIRoute = async ({ request }) => {
       },
     },
     public: true,
-    origin: request.headers.get("origin"),
   };
+  if (origin && origin !== "null" && origin !== "file://") {
+    payload.origin = origin;
+  }
 
   const response = await fetch(`${baseUrl}/api/tool_landings`, {
     method: "POST",

@@ -8,13 +8,16 @@ const baseUrl = (
 ).replace(/\/$/, "");
 
 export const POST: APIRoute = async ({ request }) => {
-  const payload = {
+  const origin = request.headers.get("origin");
+  const payload: Record<string, unknown> = {
     workflow_id: workflow.trsUrl,
     workflow_target_type: "trs_url",
     request_state: {},
     public: true,
-    origin: request.headers.get("origin"),
   };
+  if (origin && origin !== "null" && origin !== "file://") {
+    payload.origin = origin;
+  }
 
   const response = await fetch(`${baseUrl}/api/workflow_landings`, {
     method: "POST",

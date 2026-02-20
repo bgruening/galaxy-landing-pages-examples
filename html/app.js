@@ -56,10 +56,10 @@ const postJson = async (url, payload) => {
   return { response, data };
 };
 
-// Avoid sending "null" origins when opened via file://
+// Avoid sending "null" or "file://" origins when opened via file://
 const maybeAddOrigin = (payload) => {
   const origin = window.location.origin;
-  if (origin && origin !== "null") {
+  if (origin && origin !== "null" && origin !== "file://") {
     payload.origin = origin;
   }
   return payload;
